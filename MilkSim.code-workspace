@@ -1,0 +1,31 @@
+{
+  "folders": [
+    {
+      "path": ".",
+    },
+  ],
+  "settings": {
+    "files.encoding": "utf8",
+    "files.autoGuessEncoding": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "prettier.experimentalTernaries": true,
+    "prettier.printWidth": 100,
+    "prettier.resolveGlobalModules": false,
+    "prettier.singleAttributePerLine": true,
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "streetsidesoftware.code-spell-checker",
+      "johnharrison.bongocat-buddy",
+      "moshfeu.compare-folders",
+      "oderwat.indent-rainbow",
+      "pkief.material-icon-theme",
+      "xabikos.reactsnippets",
+      "christian-kohler.path-intellisense",
+      "christian-kohler.npm-intellisense",
+    ],
+  },
+}

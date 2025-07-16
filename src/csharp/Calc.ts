@@ -156,7 +156,7 @@ function evaluate(expr: string, env: Env = {}): number {
   return evalAst(ast, env);
 }
 
-export const ExprEvaluator = {
+export const FormulaCalc = {
   evaluate,
   tokenize,
   parse,

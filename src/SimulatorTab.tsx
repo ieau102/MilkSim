@@ -284,6 +284,8 @@ export function SimulatorTab() {
               marginTop: "1.2em",
               width: "15px",
               height: "15px",
+              background: "#fff",
+              accentColor: "#0078d4",
             }}
           />
           授乳キャラをランダム冒険者にする
@@ -303,6 +305,8 @@ export function SimulatorTab() {
               marginTop: "1.2em",
               width: "15px",
               height: "15px",
+              background: "#fff",
+              accentColor: "#0078d4",
             }}
           />
           授乳キャラにスキルを追加する
@@ -511,7 +515,13 @@ export function SimulatorTab() {
           value={inputEnc}
           min={0}
           onChange={(e) => setInputEnc(e.target.value === "" ? "" : Number(e.target.value))}
-          style={{ margin: "1em", width: "100px" }}
+          style={{
+            margin: "1em",
+            width: "100px",
+            background: "#fff",
+            color: "#222",
+            border: "1px solid #ccc",
+          }}
         />
         {/* 数値入力欄 */}
         <span>調教レベル</span>
@@ -520,7 +530,13 @@ export function SimulatorTab() {
           value={inputLv}
           min={0}
           onChange={(e) => setInputLv(e.target.value === "" ? "" : Number(e.target.value))}
-          style={{ margin: "1em", width: "100px" }}
+          style={{
+            margin: "1em",
+            width: "100px",
+            background: "#fff",
+            color: "#222",
+            border: "1px solid #ccc",
+          }}
         />
       </div>
       <div

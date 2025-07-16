@@ -9,7 +9,15 @@ function MainLayout() {
     {
       label: "説明",
       content: (
-        <div style={{ padding: "2em", fontSize: "1.1em", lineHeight: 1.7 }}>
+        <div
+          style={{
+            padding: "2em",
+            fontSize: "1.1em",
+            lineHeight: 1.7,
+            color: "#222",
+            background: "#fff",
+          }}
+        >
           <h2>乳シミュレーターについて</h2>
           このアプリはモンスター育成シミュレーションのためのツールです。
           <br />
@@ -48,7 +56,7 @@ function MainLayout() {
         width: "100vw",
         minHeight: "100vh",
         margin: 0,
-        background: "transparent",
+        background: "#fff",
         overflowX: "hidden", // ←追加
       }}
     >
@@ -79,7 +87,7 @@ function MainLayout() {
               outline: "none",
 
               borderRight: idx < tabList.length - 1 ? "1px solid #eee" : "none",
-              borderBottom: activeTab === idx ? "3px solid #0078d4" : "3px solid transparent",
+              borderBottom: activeTab === idx ? "3px solid #0078d4" : "3px solid #fff",
               background: activeTab === idx ? "#F5FDFF" : "none",
               fontWeight: activeTab === idx ? "bold" : "normal",
               color: activeTab === idx ? "#0078d4" : "#333",

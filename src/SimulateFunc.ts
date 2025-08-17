@@ -40,7 +40,11 @@ export function calcMergedElementMap(
     const raceArr = RaceValue.get(key) ?? [0, 0];
     const jobArr = JobValue.get(key) ?? [0, 0];
     const charArr = CharValue.get(key) ?? [0, 0];
-    merged.set(key, [raceArr[0] + jobArr[0] + charArr[0], raceArr[1] + jobArr[1] + charArr[1]]);
+    let finalArr = raceArr[0] + jobArr[0] + charArr[0];
+    if (key === "farming" && finalArr > 50) {
+      finalArr = FormulaCalc.evaluate("50 + sqrt(v - 50)", { v: finalArr });
+    }
+    merged.set(key, [finalArr, raceArr[1] + jobArr[1] + charArr[1]]);
   }
   return merged;
 }

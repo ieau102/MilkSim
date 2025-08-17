@@ -285,6 +285,7 @@ export function SimulatorTab() {
               width: "15px",
               height: "15px",
               background: "#fff",
+              border: "1.5px solid #888",
               accentColor: "#0078d4",
             }}
           />
@@ -306,6 +307,7 @@ export function SimulatorTab() {
               width: "15px",
               height: "15px",
               background: "#fff",
+              border: "1.5px solid #888",
               accentColor: "#0078d4",
             }}
           />

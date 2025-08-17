@@ -343,6 +343,7 @@
 1238,featElder,古代種,Elder Race,,,,,,0,0,100,,1,1,1000,0,15,2,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,1,,,0,,,,,,,種族により受け継がれた特性。,A trait inherited from race.,あなたは古い種族だ。,You are of an elder race.,上位の属性を扱える,Able to harness superior elements.,,,,,,,,
 1239,featDemon,悪魔,Demon,,,,,,0,0,100,,1,1,1000,0,18,1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,5,,,0,,,,,,,種族により受け継がれた特性。,A trait inherited from race.,あなたは悪魔だ。,You are demon.,,,,,,,,,,
 1240,featMassSummoner,群れの主,Leader of the Pack,,,,,,0,0,100,,1,1,1000,0,3,1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,5,,,0,,,,,,,旅の途中で身につけた特性。,A trait acquired during your journey,あなたは群れを率いる。,You are the leader of the pack.,一度に召喚できるミニオンの数の増加,Increased number of minions summonable at once,,,,,,,,
+1241,featMeatCushion,肉の壁,Wall of Flesh,,,,,,0,0,100,,1,1,1000,0,13,1,0,,,Feat,FEAT,feat,,,innate,,50,0,10,5,5,,,0,,,,,,,種族により受け継がれた特性。,A trait inherited from race.,あなたは分厚い肉で攻撃を防ぐ。,You interpose thick flesh to stop the strike.,範囲内の味方へのダメージを肩代わりする,Take damage in place of nearby allies,,,,,,,,
 1300,featGod_element1,元素の加護,Favor of the Element,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,god,,innate,,50,0,10,5,5,,,0,,,,,,,神から授かった恩恵。,A divine endowment.,あなたは神の加護を受けている。,You are blessed by God.,,,,,,,,,,
 1305,featGod_earth1,大地の加護,Favor of the Earth,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,god,,innate,,50,0,10,5,5,,,0,,,,,,,神から授かった恩恵。,A divine endowment.,あなたは神の加護を受けている。,You are blessed by God.,全てのダメージを軽減する,Reduce all damage,,,,,,,,
 1310,featGod_wind1,風の加護,Favor of the Wind,,,,,,0,0,100,,1,1,1000,0,0,-1,0,,,Feat,FEAT,feat,god,,innate,,50,0,10,5,5,,,0,,,,,,,神から授かった恩恵。,A divine endowment.,あなたは女神の加護を受けている。,You are blessed by Goddess.,,,,,,,,,,
@@ -436,7 +437,7 @@ Your arms are just decorative.",,,#1の腕の筋肉が増えた。,#your arms gr
 あなたの声は全てを魅了する。","Your voice is sweet.
 Your voice charms everyone.",,,#1の声はよく通る。,#your voice becomes lovely.,#1の声はかれた。,#your voice becomes scary.,,,,
 1523,mutationChaN,かれた声,Husky Voice,,,mutationCha,,,0,0,100,,1,1,1000,0,0,-1,0,,,Mutation,MUTATION,mutation,,,neg,,50,0,10,5,2,,,0,,,,,,,突然変異により生じた体の変化。,A physical alterations caused by a mutation.,"あなたの声はかれている。
-あなたが喋ると皆逃げる。","Your voice is hasky.
+あなたが喋ると皆逃げる。","Your voice is husky.
 Everyone is frightened when you talk.",,,#1の声はよく通る。,#your voice becomes lovely.,#1の声はかれた。,#your voice becomes scary.,,,,
 1524,mutationBrain,脳内コンピュータ,Brain Computer,,,mutationBrainN,,,0,0,100,,1,1,1000,0,0,-1,0,,,Mutation,MUTATION,mutation,,,,,50,0,10,5,2,,,0,,,,,,,突然変異により生じた体の変化。,A physical alterations caused by a mutation.,"あなたの脳は機械化している。
 あなたの脳は完璧な機械だ。","Your brain is mechanized.
@@ -939,7 +940,7 @@ First 5 casts of the day have boosted high-grade fish chance,First cast of the d
 6622,ActGazeMutation,変容の眼差し,Eye Of Mutation,,,MAG,,,5,100,100,,1,25,1000,0,24,1,0,Chara,Mutation,Ability,ABILITY,ability,ability,debuff,"neg,reqSight",,50,0,10,5,0,,,0,,,,,,gaze_dim,,,,,,,,,,,,,,
 6623,ActGazeMana,マナの眼差し,Eye Of Mana,,,MAG,eleMagic,,5,100,100,,1,38,1000,0,11,1,0,Chara,DrainMana,Ability,ABILITY,ability,ability,attack,"neg,reqSight",,400,0,10,5,0,,,0,,,,,,gaze_dim,,,,,,,,,,,,,,
 6626,ActDrainBlood,吸血,Drain Blood,,,CHA,eleNether,,5,100,100,,1,10,1000,0,6,1,0,Chara,DrainBlood,Ability,ABILITY,ability,ability,attack,neg,,1000,0,10,5,0,,,0,,,,,,a_drain_blood,,,,,,,,,,,,,,
-6627,ActCatHuffing,猫吸い,Cat Sniff,,,CHA,,,5,100,100,,1,10,1000,0,6,1,0,Chara,,Ability,ABILITY,ability,ability,,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
+6627,ActCatHuffing,猫吸い,Cat Sniff,,,CHA,,,5,100,100,,1,10,1000,0,6,1,0,Self,CatSniff,Ability,ABILITY,ability,ability,special,neg,,50,5,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
 6630,ActInsult,罵倒,Insult,,,WIL,,,5,100,100,,1,1,1000,0,3,1,0,Chara,"Debuff,ConDim",Ability,ABILITY,ability,ability,debuff,neg,,50,0,10,5,0,,,0,,,,,,gaze_insult,,,,,,,,,,,,,,
 6631,ActScream,絶叫,Scream,,,WIL,,,5,100,100,,1,1,1000,0,25,1,0,Self,Scream,Ability,ABILITY,ability,ability,any,neg,,50,0,10,5,0,,,0,,,,,,a_scream,,,,,,,,,,,,,,
 6640,ActSteal,窃盗,Steal,,,DEX,,,5,100,100,,1,1,1000,0,16,1,0,Neighbor,Steal,Ability,ABILITY,ability,ability,attack,neg,,50,0,10,5,0,,,0,,,,,,,,,,,,,,,,,,,,
@@ -954,6 +955,7 @@ First 5 casts of the day have boosted high-grade fish chance,First cast of the d
 6700,StTaunt,挑発,Taunt,,,WIL,,,5,0,100,,1,1,1000,0,2,1,0,Self,"Buff,StanceTaunt",Ability,ABILITY,ability,ability,taunt,,,50,0,10,5,0,,,0,,,,,,,味方を庇い、敵の攻撃を引き付けるスタンス。,A stance that shields allies and attracts enemy attacks.,,,,,,,,,,,,
 6720,StManaCost,節魔,Maconomy,,,MAG,,,5,0,100,,1,1,1000,0,2,1,0,Self,"Buff,StanceManaCost",Ability,ABILITY,ability,ability,,,,50,0,10,5,0,,,0,,,,,,,魔法のストックを多く消費する代わりにマナの消費が減るスタンス。,"A stance that reduces mana consumption at the cost of using more spell stocks. ",,,,,,,,,,,,
 6750,SongSleep,子守唄,Lullaby,,,CHA,,,5,0,100,,1,10,1000,0,2,1,0,Self,"Buff,StanceSongSleep",Ability,ABILITY,ability,ability,song,,,50,0,10,5,0,,,0,,,,,,,周囲の生物に眠りをもたらす歌。,A song that puts surrounding creatures to sleep.,,,,,,,,,,,,
+6751,SongTulip,チューリップの歌,Song of Tulip,,,CHA,,,5,0,100,,1,10,1000,0,2,1,0,Self,"Buff,StanceSongSleep",Ability,ABILITY,ability,ability,song,,,50,0,10,5,0,,,0,,,,,,,周囲の生物に眠りをもたらす歌。,A song that puts surrounding creatures to sleep.,,,,,,,,,,,,
 6900,ActManaAbsorb,魔力の抽出,Absorb Mana,,,piety,,,1,0,100,,1,10,400,1200,10,1,0,Party,AbsorbMana,Ability,ABILITY,ability,ability,special,godAbility,,50,20,4,5,0,,,0,,,,,,,周囲の空気からマナを抽出する。,Absorb mana from the air around the caster.,,,#calcのマナ回復,Restore #calc mana,,,,,,,,
 6901,ActJureHeal,《ジュア》の祈り,Prayer of 《Jure》,,,piety,,,1,0,100,,1,1,1000,0,12,1,0,Party,JureHeal,Ability,ABILITY,ability,ability,,godAbility,,50,0,10,5,0,,,0,,,,,,,女神の祈りが詠唱者と周囲の味方を回復する。,The prayer of Goddess heals you and your allies.,,,#calcの体力回復,Restore #calc hit points,,,,,,,,
 6902,ActLulwyTrick,《ルルウィ》の憑依,"《Lulwy》's Possession ",,,piety,,,1,0,100,,1,1,1000,0,20,1,0,Party,"LulwyTrick,SPD",Ability,ABILITY,ability,ability,,godAbility,,50,0,10,5,0,,,0,,,,,,,詠唱者に風の女神が憑依し速度をあげる。,The Goddess of Wind possesses and hastens the caster.,,,@ConBuffStats,@ConBuffStats,,,,,,,,

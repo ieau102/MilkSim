@@ -21,8 +21,8 @@ function MainLayout() {
           <h2>乳シミュレーターについて</h2>
           このアプリはモンスター育成シミュレーションのためのツールです。
           <br />
-          現在EA 23.173 安定版 Patch
-          1の仕様に基づいています。選択肢にそのバージョンまでのキャラなどが表示されない場合は、スーパーリロード（Ctrl
+          現在EA 23.187 安定版
+          の仕様に基づいています。選択肢にそのバージョンまでのキャラなどが表示されない場合は、スーパーリロード（Ctrl
           + Shift + R）を試してみてください。
           <br />
           <br />
@@ -109,14 +109,7 @@ function MainLayout() {
       </div>
       {/* タブ内容枠 */}
       <div style={{ padding: "0px", maxWidth: "100%", minHeight: "100%" }}>
-        {tabList.map((tab, idx) => (
-          <div
-            key={tab.label}
-            style={{ display: activeTab === idx ? "block" : "none", width: "100%", height: "100%" }}
-          >
-            {tab.content}
-          </div>
-        ))}
+        {tabList[activeTab].content}
       </div>
     </div>
   );

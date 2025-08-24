@@ -2,32 +2,27 @@ import type { Element, Char, Race, Job } from "./Source";
 import { loadElements, loadChars, loadRaceElements, loadJobElements } from "./Source";
 import { calcMergedElementMap, bestAttribute, bestSkill, milkDifference } from "./SimulateFunc";
 import { MaterialReactTable } from "material-react-table";
-import { useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 export function MilkDataTab() {
   const isSmall = window.innerWidth < 500;
   const isMiddle = window.innerWidth >= 500 && window.innerWidth < 800;
   const isLarge = window.innerWidth >= 800 && window.innerWidth < 1600;
 
-  const charsRef = useRef<Char[]>([]);
-  const elementsRef = useRef<Element[]>([]);
-  const racesRef = useRef<Race[]>([]);
-  const jobsRef = useRef<Job[]>([]);
+  // useRef → useStateに変更
+  const [chars, setChars] = useState<Char[]>([]);
+  const [elements, setElements] = useState<Element[]>([]);
+  const [races, setRaces] = useState<Race[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    loadChars().then((data) => (charsRef.current = data));
-  }, []);
-  useEffect(() => {
-    loadElements().then((data) => (elementsRef.current = data));
-  }, []);
-  useEffect(() => {
-    loadRaceElements().then((data) => (racesRef.current = data));
-  }, []);
-  useEffect(() => {
-    loadJobElements().then((data) => (jobsRef.current = data));
+    loadChars().then(setChars);
+    loadElements().then(setElements);
+    loadRaceElements().then(setRaces);
+    loadJobElements().then(setJobs);
   }, []);
 
-  const allCharNameMap = charsRef.current.reduce(
+  const allCharNameMap = chars.reduce(
     (acc, char) => {
       if (char.charNameMap) {
         Object.entries(char.charNameMap).forEach(([key, value]) => {
@@ -40,7 +35,7 @@ export function MilkDataTab() {
   );
 
   const mergedChildMap = new Map<string, number[]>();
-  elementsRef.current.forEach((e) => {
+  elements.forEach((e) => {
     if (e.tag === "primary") {
       mergedChildMap.set(e.alias, [1, 0]);
     } else if (e.category === "skill") {
@@ -50,19 +45,19 @@ export function MilkDataTab() {
 
   const data = Object.entries(allCharNameMap).map(([key, value]) => {
     const mergedParentMap = calcMergedElementMap(
-      charsRef.current.find((c) => c.id === key) ?? null,
+      chars.find((c) => c.id === key) ?? null,
       null,
       null,
       100,
       23,
-      elementsRef.current,
-      racesRef.current,
-      jobsRef.current,
+      elements,
+      races,
+      jobs,
       false,
       true
     );
-    const bestAttr = bestAttribute(mergedParentMap, elementsRef.current);
-    const bestSkillMap = bestSkill(mergedParentMap, elementsRef.current);
+    const bestAttr = bestAttribute(mergedParentMap, elements);
+    const bestSkillMap = bestSkill(mergedParentMap, elements);
     const milkDiff = milkDifference(bestAttr, bestSkillMap, mergedChildMap, null, null);
 
     return {
@@ -72,7 +67,7 @@ export function MilkDataTab() {
   });
 
   // 能力一覧をid順で取得（tag: "primary" または category: "skill" のみ）
-  const statusElements = elementsRef.current
+  const statusElements = elements
     .filter((e) => (e.tag === "primary" || e.category === "skill") && !e.tag.includes("unused"))
     .sort((a, b) => a.id - b.id);
 
@@ -92,6 +87,24 @@ export function MilkDataTab() {
       accessorFn: (row: { milkDiff: Record<string, number> }) => row.milkDiff?.[e.alias] ?? 0, // ここでデフォルト値
     })),
   ];
+
+  // データが読み込まれるまでローディングメッセージを表示
+  if (chars.length === 0 || elements.length === 0) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "60vh",
+          fontSize: "1.5em",
+          color: "#555",
+        }}
+      >
+        読み込み中...
+      </div>
+    );
+  }
 
   // MaterialReactTableで表示
   return (

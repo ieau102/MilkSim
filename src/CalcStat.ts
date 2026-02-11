@@ -4,14 +4,14 @@ import { FormulaCalc } from "./csharp/Calc";
 import type { Env } from "./csharp/Calc";
 
 export function GetSourceValue(v: number, lv: number, lvFactor: number, type: string): number {
-  const calcTemp1 = FormulaCalc.evaluate("lv / 2 + 1", { lv }),
-    calcTemp2 = FormulaCalc.evaluate("lv / 3", { lv });
-  const env: Env = { v, lv, lvFactor, rnd1: Random.rnd(calcTemp1), rnd2: Random.rnd(calcTemp2) };
+  const rnd1 = Random.rnd(FormulaCalc.evaluate("lv / 2 + 1", { lv }));
+  const calcTemp = FormulaCalc.evaluate("lv / 3", { lv });
+  const env: Env = { lvFactor, rnd2: Random.rnd(calcTemp) };
   switch (type) {
     case "Char":
-      return FormulaCalc.evaluate(
-        "v * (100 + (lv - 1 + rnd1) * lvFactor / 10) / 100 + rnd2 * lvFactor / 100",
-        env
+      return Number(
+        (BigInt(v) * (100n + ((BigInt(lv) - 1n + BigInt(rnd1)) * BigInt(lvFactor)) / 10n)) / 100n +
+          BigInt(FormulaCalc.evaluate("rnd2 * lvFactor / 100", env)),
       );
     case "Fixed":
       return v;
@@ -31,7 +31,7 @@ export function ApplyElementMap(
   obj: Record<string, number>,
   lv: number,
   ele: Element[],
-  type: string
+  type: string,
 ): Map<string, number[]> {
   Random.SetSeed(2);
   const result = new Map<string, number[]>();
@@ -41,12 +41,18 @@ export function ApplyElementMap(
       if (ele.find((e) => e.alias === key)?.category === "skill") {
         potential += GetSourcePotential(value);
       }
-      const vSource = GetSourceValue(
+      if (lv > 10000000) {
+        lv = 10000000;
+      }
+      let vSource = GetSourceValue(
         value,
         lv,
         ele.find((e) => e.alias === key)?.lvFactor ?? 0,
-        type
+        type,
       );
+      if (vSource > 99999999) {
+        vSource = 99999999;
+      }
       result.set(key, [vSource, potential]);
     }
   }

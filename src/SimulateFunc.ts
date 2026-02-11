@@ -13,7 +13,7 @@ export function calcMergedElementMap(
   races: Race[],
   jobs: Job[],
   useRaceJob: boolean,
-  useActualLv: boolean
+  useActualLv: boolean,
 ): Map<string, number[]> {
   const actualLv =
     useActualLv ? Math.max(1, Math.min(20 + inputLv, 5 + inputEnc * 5)) : 5 + inputEnc * 5;
@@ -23,7 +23,7 @@ export function calcMergedElementMap(
     : (races.find((r) => r.id === selectedChar?.race)?.elementMap ?? {}),
     actualLv,
     elements,
-    "Char"
+    "Char",
   );
   const JobValue = ApplyElementMap(
     useRaceJob ?
@@ -31,7 +31,7 @@ export function calcMergedElementMap(
     : (jobs.find((j) => j.id === selectedChar?.job)?.elementMap ?? {}),
     actualLv,
     elements,
-    "Char"
+    "Char",
   );
   const CharValue = ApplyElementMap(selectedChar?.elementMap ?? {}, actualLv, elements, "Fixed");
   const merged = new Map<string, number[]>();
@@ -51,16 +51,15 @@ export function calcMergedElementMap(
 
 export function bestAttribute(
   map: Map<string, number[]>,
-  elements: Element[]
+  elements: Element[],
 ): Map<string, number> {
   const keys = elements.filter((e) => e.tag === "primary").map((e) => e.alias);
   const filteredSorted = Array.from(map.entries())
     .filter(([key]) => keys.includes(key))
-    .sort(
-      (a, b) =>
-        (b[1][0] - a[1][0]) * 100000 +
-        elements.find((e) => e.alias === a[0])!.id -
-        elements.find((e) => e.alias === b[0])!.id
+    .sort((a, b) =>
+      b[1][0] != a[1][0] ?
+        b[1][0] - a[1][0]
+      : elements.find((e) => e.alias === a[0])!.id - elements.find((e) => e.alias === b[0])!.id,
     );
   return new Map(filteredSorted.map(([key, value]) => [key, value[0]]));
 }
@@ -69,11 +68,10 @@ export function bestSkill(map: Map<string, number[]>, elements: Element[]): Map<
   const keys = elements.filter((e) => e.category === "skill").map((e) => e.alias);
   const filteredSorted = Array.from(map.entries())
     .filter(([key]) => keys.includes(key))
-    .sort(
-      (a, b) =>
-        (b[1][0] - a[1][0]) * 100000 +
-        elements.find((e) => e.alias === a[0])!.id -
-        elements.find((e) => e.alias === b[0])!.id
+    .sort((a, b) =>
+      b[1][0] != a[1][0] ?
+        b[1][0] - a[1][0]
+      : elements.find((e) => e.alias === a[0])!.id - elements.find((e) => e.alias === b[0])!.id,
     );
   return new Map(filteredSorted.map(([key, value]) => [key, value[0]]));
 }
@@ -83,7 +81,7 @@ export function milkDifference(
   bestSkillMap: Map<string, number>,
   mergedChild: Map<string, number[]>,
   selectAddSkill1: Element | null,
-  selectAddSkill2: Element | null
+  selectAddSkill2: Element | null,
 ): Map<string, number> {
   const milkAttributeDifference = new Map<string, number>();
   let milkRate = 100;

@@ -201,7 +201,7 @@ function autoConvertRow(row: Record<string, unknown>) {
 
 function getElementMap(
   elements: string,
-  baseMap: Record<string, number> = {}
+  baseMap: Record<string, number> = {},
 ): Record<string, number> {
   if (elements) {
     elements.split(",").forEach((pair) => {
@@ -218,7 +218,7 @@ function getNameMap(
   id: string,
   name: string,
   aka: string,
-  baseMap: Record<string, string>
+  baseMap: Record<string, string>,
 ): Record<string, string> {
   let fullname = "";
   if (aka !== "" && aka !== "*r") {
@@ -322,7 +322,7 @@ function getRaceNameMap(
   id: string,
   name_JP: string,
   playable: number,
-  baseMap: Record<string, string>
+  baseMap: Record<string, string>,
 ): Record<string, string> {
   if (playable <= 1) {
     baseMap[id] = name_JP;
@@ -334,7 +334,7 @@ function getJobNameMap(
   id: string,
   name_JP: string,
   playable: number,
-  baseMap: Record<string, string>
+  baseMap: Record<string, string>,
 ): Record<string, string> {
   if (playable <= 4) {
     baseMap[id] = name_JP;
@@ -368,19 +368,19 @@ export async function loadChars(): Promise<Char[]> {
     "test_chicken",
     "player",
     "broom_chara",
+    "bat_trans",
     "adv",
     "adv_fairy",
     "at",
-    "ungaga_pap",
+    "yatsu",
     "yochlol",
-    "mimic",
     "beholder",
-    "guard_port",
   ];
   const filtered = result.filter(
     (row) =>
+      row.id !== "guard_port" &&
       (row.quality !== 4 || row.id === "big_daddy") &&
-      (row.chance !== 0 || !filterWord.includes(row.id))
+      (row.chance !== 0 || !filterWord.includes(row.id)),
   );
   const charWithMap = filtered.map((row) => {
     const baseMap: Record<string, number> = {};

@@ -309,6 +309,12 @@ function getNameMap(
     case "dragon2":
       fullname += "(死/混沌)";
       break;
+    case "imotoroid":
+      fullname += "ロイド";
+      break;
+    case "imotoroid_origin":
+      fullname += "ロイドオリジン";
+      break;
     default:
       break;
   }

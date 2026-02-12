@@ -591,14 +591,14 @@ export function SimulatorTab() {
       </div>
       {/* 選択されたキャラクターの情報表示 */}
       <div style={{ textAlign: "center", marginTop: "1em" }}>
-        {result === "すべての項目を入力してください。" && (
+        {result === t.messageInputAll && (
           <div style={{ color: "red", fontWeight: "bold" }}>{result}</div>
         )}
       </div>
       {result instanceof Map && 20 + Number(inputLv) - (Number(inputEnc) * 5 + 5) < 0 && (
         <div style={{ textAlign: "center", marginTop: "1em" }}>
           <span style={{ fontWeight: "bold", color: "#333" }}>
-            上限には調教レベルが{5 + Number(inputEnc) * 5 - 20}必要です
+            {t.messageTamingRequired.replace("{0}", String(5 + Number(inputEnc) * 5 - 20))}
           </span>
         </div>
       )}
@@ -607,16 +607,22 @@ export function SimulatorTab() {
         <table style={{ margin: "1em auto", borderCollapse: "collapse", minWidth: "300px" }}>
           <thead>
             <tr>
-              <th style={{ border: "1px solid #ccc", padding: "0.5em" }}>能力名</th>
-              <th style={{ border: "1px solid #ccc", padding: "0.5em" }}>上昇値</th>
-              <th style={{ border: "1px solid #ccc", padding: "0.5em" }}>上限との差</th>
+              <th style={{ border: "1px solid #ccc", padding: "0.5em" }}>{t.tableHeaderAbility}</th>
+              <th style={{ border: "1px solid #ccc", padding: "0.5em" }}>
+                {t.tableHeaderIncrease}
+              </th>
+              <th style={{ border: "1px solid #ccc", padding: "0.5em" }}>
+                {t.tableHeaderDifference}
+              </th>
             </tr>
           </thead>
           <tbody>
             {Array.from(result.entries()).map(([key, value]) => (
               <tr key={key}>
                 <td style={{ border: "1px solid #ccc", padding: "0.5em", textAlign: "center" }}>
-                  {elements.find((e) => e.alias === key)?.name_JP}
+                  {lang === "ja" ?
+                    elements.find((e) => e.alias === key)?.name_JP
+                  : elements.find((e) => e.alias === key)?.name}
                 </td>
                 <td style={{ border: "1px solid #ccc", padding: "0.5em", textAlign: "center" }}>
                   {value}

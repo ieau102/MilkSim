@@ -73,6 +73,12 @@ export const translations = {
 
     // データタブ
     dataTableParentCharacter: "親モンスター名",
+
+    // シミュレータータブ - テーブル
+    tableHeaderAbility: "能力名",
+    tableHeaderIncrease: "上昇値",
+    tableHeaderDifference: "上限との差",
+    messageTamingRequired: "上限には調教レベルが{0}必要です",
   },
   en: {
     // アプリタイトル
@@ -147,6 +153,12 @@ export const translations = {
 
     // データタブ
     dataTableParentCharacter: "Parent Monster Name",
+
+    // シミュレータータブ - テーブル
+    tableHeaderAbility: "Ability",
+    tableHeaderIncrease: "Increase",
+    tableHeaderDifference: "Difference from Limit",
+    messageTamingRequired: "Taming level {0} is required to reach the limit",
   },
 } as const;
 

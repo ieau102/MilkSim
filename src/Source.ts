@@ -110,7 +110,8 @@ export type Char = {
   detail_JP: string;
   detail: string;
   elementMap?: Record<string, number>;
-  charNameMap?: Record<string, string>;
+  charNameMap_JP?: Record<string, string>;
+  charNameMap_EN?: Record<string, string>;
 };
 
 export type Race = {
@@ -159,7 +160,8 @@ export type Race = {
   detail_JP: string;
   detail: string;
   elementMap?: Record<string, number>;
-  raceNameMap?: Record<string, string>;
+  raceNameMap_JP?: Record<string, string>;
+  raceNameMap_EN?: Record<string, string>;
 };
 
 export type Job = {
@@ -183,7 +185,8 @@ export type Job = {
   detail_JP: string;
   detail: string;
   elementMap?: Record<string, number>;
-  jobNameMap?: Record<string, string>;
+  jobNameMap_JP?: Record<string, string>;
+  jobNameMap_EN?: Record<string, string>;
 };
 
 function autoConvertRow(row: Record<string, unknown>) {
@@ -219,6 +222,7 @@ function getNameMap(
   name: string,
   aka: string,
   baseMap: Record<string, string>,
+  isJP: boolean = true,
 ): Record<string, string> {
   let fullname = "";
   if (aka !== "" && aka !== "*r") {
@@ -235,85 +239,85 @@ function getNameMap(
     .replace("#ele", "");
   switch (id) {
     case "child":
-      fullname += "(ノーランド)";
+      fullname += isJP ? "(ノーランド)" : " (Norland)";
       break;
     case "child_elea":
-      fullname += "(エレア)";
+      fullname += isJP ? "(エレア)" : " (Elea)";
       break;
     case "child_fairy":
-      fullname += "(妖精)";
+      fullname += isJP ? "(妖精)" : " (Fairy)";
       break;
     case "citizen_exile":
-      fullname += "(市民)";
+      fullname += isJP ? "(市民)" : " (Citizen)";
       break;
     case "citizen":
-      fullname += "(ノーランド)";
+      fullname += isJP ? "(ノーランド)" : " (Norland)";
       break;
     case "citizen_fairy":
-      fullname += "(妖精)";
+      fullname += isJP ? "(妖精)" : " (Fairy)";
       break;
     case "citizen_elea":
-      fullname += "(エレア)";
+      fullname += isJP ? "(エレア)" : " (Elea)";
       break;
     case "citizen_mifu":
-      fullname += "(ミフ)";
+      fullname += isJP ? "(ミフ)" : " (Mifu)";
       break;
     case "citizen_nefu":
-      fullname += "(ネフ)";
+      fullname += isJP ? "(ネフ)" : " (Nefu)";
       break;
     case "citizen_steam":
-      fullname += "(イエルス)";
+      fullname += isJP ? "(イエルス)" : " (Yerles)";
       break;
     case "fox_mifu":
-      fullname += "(ミフ)";
+      fullname += isJP ? "(ミフ)" : " (Mifu)";
       break;
     case "fox_nefu":
-      fullname += "(ネフ)";
+      fullname += isJP ? "(ネフ)" : " (Nefu)";
       break;
     case "senior":
-      fullname += "(ノーランド)";
+      fullname += isJP ? "(ノーランド)" : " (Norland)";
       break;
     case "senior_fox":
-      fullname += "(ミフ)";
+      fullname += isJP ? "(ミフ)" : " (Mifu)";
       break;
     case "secretary":
-      fullname += "(ノーランド)";
+      fullname += isJP ? "(ノーランド)" : " (Norland)";
       break;
     case "secretary_fox":
-      fullname += "(ネフ)";
+      fullname += isJP ? "(ネフ)" : " (Nefu)";
       break;
     case "merchant_mifu":
-      fullname += "(ミフ)";
+      fullname += isJP ? "(ミフ)" : " (Mifu)";
       break;
     case "merchant_nefu":
-      fullname += "(ネフ)";
+      fullname += isJP ? "(ネフ)" : " (Nefu)";
       break;
     case "merchant_inn":
-      fullname += "(ノーランド)";
+      fullname += isJP ? "(ノーランド)" : " (Norland)";
       break;
     case "merchant_inn_fox":
-      fullname += "(ミフ)";
+      fullname += isJP ? "(ミフ)" : " (Mifu)";
       break;
     case "guard":
-      fullname += "(ノーランド)";
+      fullname += isJP ? "(ノーランド)" : " (Norland)";
       break;
     case "guard_fox":
-      fullname += "(ネフ)";
+      fullname += isJP ? "(ネフ)" : " (Nefu)";
       break;
     case "putty_snow_gold":
-      fullname += "(金)";
+      fullname += isJP ? "(金)" : " (Gold)";
       break;
     case "dragon":
-      fullname += "(炎/氷/雷/闇)";
+      fullname += isJP ? "(炎/氷/雷/闇)" : " (Fire/Cold/Lightning/Darkness)";
       break;
     case "dragon2":
-      fullname += "(死/混沌)";
+      fullname += isJP ? "(死/混沌)" : " (Nether/Chaos)";
       break;
     case "imotoroid":
-      fullname += "ロイド";
+      fullname += isJP ? "ロイド" : "roid";
       break;
     case "imotoroid_origin":
-      fullname += "ロイドオリジン";
+      fullname += isJP ? "ロイドオリジン" : "roid Origin";
       break;
     default:
       break;
@@ -326,24 +330,24 @@ function getNameMap(
 
 function getRaceNameMap(
   id: string,
-  name_JP: string,
+  name: string,
   playable: number,
   baseMap: Record<string, string>,
 ): Record<string, string> {
   if (playable <= 1) {
-    baseMap[id] = name_JP;
+    baseMap[id] = name;
   }
   return baseMap;
 }
 
 function getJobNameMap(
   id: string,
-  name_JP: string,
+  name: string,
   playable: number,
   baseMap: Record<string, string>,
 ): Record<string, string> {
   if (playable <= 4) {
-    baseMap[id] = name_JP;
+    baseMap[id] = name;
   }
   return baseMap;
 }
@@ -391,8 +395,9 @@ export async function loadChars(): Promise<Char[]> {
   const charWithMap = filtered.map((row) => {
     const baseMap: Record<string, number> = {};
     const elementMap = getElementMap(row.elements, baseMap);
-    const charNameMap = getNameMap(row.id, row.name_JP, row.aka_JP, {});
-    return { ...row, elementMap, charNameMap };
+    const charNameMap_JP = getNameMap(row.id, row.name_JP, row.aka_JP, {}, true);
+    const charNameMap_EN = getNameMap(row.id, row.name, row.aka, {}, false);
+    return { ...row, elementMap, charNameMap_JP, charNameMap_EN };
   });
   return charWithMap;
 }
@@ -450,8 +455,9 @@ export async function loadRaceElements(): Promise<Race[]> {
     baseMap["meditation"] = 1;
     baseMap["faith"] = 1;
     const elementMap = getElementMap(row.elements, baseMap);
-    const raceNameMap = getRaceNameMap(row.id, row.name_JP, row.playable, {});
-    return { ...row, elementMap, raceNameMap };
+    const raceNameMap_JP = getRaceNameMap(row.id, row.name_JP, row.playable, {});
+    const raceNameMap_EN = getRaceNameMap(row.id, row.name, row.playable, {});
+    return { ...row, elementMap, raceNameMap_JP, raceNameMap_EN };
   });
   return raceWithMap;
 }
@@ -475,8 +481,9 @@ export async function loadJobElements(): Promise<Job[]> {
     elementMap["MAG"] = Number(row.MAG);
     elementMap["CHA"] = Number(row.CHA);
     elementMap["SPD"] = Number(row.SPD);
-    const jobNameMap = getJobNameMap(row.id, row.name_JP, row.playable, {});
-    return { ...row, elementMap, jobNameMap };
+    const jobNameMap_JP = getJobNameMap(row.id, row.name_JP, row.playable, {});
+    const jobNameMap_EN = getJobNameMap(row.id, row.name, row.playable, {});
+    return { ...row, elementMap, jobNameMap_JP, jobNameMap_EN };
   });
   return jobsWithMap;
 }

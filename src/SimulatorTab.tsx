@@ -3,6 +3,8 @@ import Select from "react-select";
 import type { Element, Char, Race, Job } from "./Source";
 import { loadElements, loadChars, loadRaceElements, loadJobElements } from "./Source";
 import { calcMergedElementMap, bestAttribute, bestSkill, milkDifference } from "./SimulateFunc";
+import { useLanguage } from "./LanguageContext";
+import { getTranslations } from "./translations";
 
 function Button({
   onClick,
@@ -41,6 +43,8 @@ function Button({
 }
 
 export function SimulatorTab() {
+  const { lang } = useLanguage();
+  const t = getTranslations(lang);
   const isSmall = window.innerWidth < 500;
   const isMiddle = window.innerWidth >= 500 && window.innerWidth < 800;
   const isLarge = window.innerWidth >= 800 && window.innerWidth < 1600;
@@ -60,7 +64,7 @@ export function SimulatorTab() {
   const [selectAddSkill2, setSelectAddSkill2] = useState<Element | null>(null);
   const [result, setResult] = useState<string | null | Map<string, number>>(null);
   const [fictitiousDifference, setFictitiousDifference] = useState<null | Map<string, number>>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -80,46 +84,49 @@ export function SimulatorTab() {
 
   const allCharNameMap = chars.reduce(
     (acc, char) => {
-      if (char.charNameMap) {
-        Object.entries(char.charNameMap).forEach(([key, value]) => {
+      const nameMap = lang === "ja" ? char.charNameMap_JP : char.charNameMap_EN;
+      if (nameMap) {
+        Object.entries(nameMap).forEach(([key, value]) => {
           acc[key] = value;
         });
       }
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
   const allRaceNameMap = races.reduce(
     (acc, race) => {
-      if (race.raceNameMap) {
-        Object.entries(race.raceNameMap).forEach(([key, value]) => {
+      const nameMap = lang === "ja" ? race.raceNameMap_JP : race.raceNameMap_EN;
+      if (nameMap) {
+        Object.entries(nameMap).forEach(([key, value]) => {
           acc[key] = value;
         });
       }
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
 
   const allJobNameMap = jobs.reduce(
     (acc, job) => {
-      if (job.jobNameMap) {
-        Object.entries(job.jobNameMap).forEach(([key, value]) => {
+      const nameMap = lang === "ja" ? job.jobNameMap_JP : job.jobNameMap_EN;
+      if (nameMap) {
+        Object.entries(nameMap).forEach(([key, value]) => {
           acc[key] = value;
         });
       }
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
   const allElementNameMap = elements.reduce(
     (acc, element) => {
       if (element.alias && element.category === "skill" && !element.tag.includes("unused")) {
-        acc[element.alias] = element.name_JP;
+        acc[element.alias] = lang === "ja" ? element.name_JP : element.name;
       }
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
 
   function handleCalc() {
@@ -130,7 +137,7 @@ export function SimulatorTab() {
       inputEnc === "" ||
       inputLv === ""
     ) {
-      setResult("すべての項目を入力してください。");
+      setResult(t.messageInputAll);
       return;
     }
     // 入力値からシミュレーションを実行
@@ -144,7 +151,7 @@ export function SimulatorTab() {
       races,
       jobs,
       false,
-      true
+      true,
     );
     const mergedFictitiousParent = calcMergedElementMap(
       selectedParent,
@@ -156,7 +163,7 @@ export function SimulatorTab() {
       races,
       jobs,
       false,
-      false
+      false,
     );
     const mergedChild = calcMergedElementMap(
       selectedChild,
@@ -168,7 +175,7 @@ export function SimulatorTab() {
       races,
       jobs,
       useRaceJob,
-      true
+      true,
     );
     const bestAttributeMap = bestAttribute(mergedActualParent, elements);
     const bestSkillMap = bestSkill(mergedActualParent, elements);
@@ -179,14 +186,14 @@ export function SimulatorTab() {
       bestSkillMap,
       mergedChild,
       selectAddSkill1,
-      selectAddSkill2
+      selectAddSkill2,
     );
     const fictitiousDifference = milkDifference(
       bestFictitiousAttributeMap,
       bestFictitiousSkillMap,
       mergedChild,
       selectAddSkill1,
-      selectAddSkill2
+      selectAddSkill2,
     );
     setResult(Difference);
     setFictitiousDifference(fictitiousDifference);
@@ -220,7 +227,7 @@ export function SimulatorTab() {
     >
       <div style={{ display: "flex", gap: "1em", alignItems: "center", justifyContent: "center" }}>
         {/* 乳親キャラ選択 */}
-        <span>乳親キャラ名</span>
+        <span>{t.labelParentChar}</span>
         <Select
           options={Object.entries(allCharNameMap).map(([key, value]) => ({
             value: key,
@@ -231,7 +238,7 @@ export function SimulatorTab() {
             const char = chars.find((c) => c.id === option?.value);
             setSelectedParent(char || null);
           }}
-          placeholder="乳親キャラを選択"
+          placeholder={t.placeholderSelectParent}
           styles={{
             container: (base) => ({ ...base, width: "300px", margin: "10px", top: "5px" }),
           }}
@@ -239,7 +246,11 @@ export function SimulatorTab() {
             selectedParent ?
               {
                 value: selectedParent.id,
-                label: Object.values(selectedParent.charNameMap ?? {})[0],
+                label: Object.values(
+                  lang === "ja" ?
+                    (selectedParent.charNameMap_JP ?? {})
+                  : (selectedParent.charNameMap_EN ?? {}),
+                )[0],
               }
             : null
           }
@@ -247,7 +258,7 @@ export function SimulatorTab() {
       </div>
       <div style={{ display: "flex", gap: "1em", alignItems: "center", justifyContent: "center" }}>
         {/* 授乳キャラ選択 */}
-        <span>授乳キャラ名</span>
+        <span>{t.labelChildChar}</span>
         <Select
           options={Object.entries(allCharNameMap).map(([key, value]) => ({
             value: key,
@@ -258,13 +269,20 @@ export function SimulatorTab() {
             const char = chars.find((c) => c.id === option?.value);
             setSelectedChild(char || null);
           }}
-          placeholder="授乳キャラを選択"
+          placeholder={t.placeholderSelectChild}
           styles={{ container: (base) => ({ ...base, width: "300px", margin: "10px" }) }}
           isDisabled={useRaceJob} // チェック時は選択不可
           value={
             useRaceJob ? null
             : selectedChild ?
-              { value: selectedChild.id, label: Object.values(selectedChild.charNameMap ?? {})[0] }
+              {
+                value: selectedChild.id,
+                label: Object.values(
+                  lang === "ja" ?
+                    (selectedChild.charNameMap_JP ?? {})
+                  : (selectedChild.charNameMap_EN ?? {}),
+                )[0],
+              }
             : null
           }
         />
@@ -289,7 +307,7 @@ export function SimulatorTab() {
               accentColor: "#0078d4",
             }}
           />
-          授乳キャラをランダム冒険者にする
+          {t.checkboxRandomAdventurer}
         </label>
       </div>
       {/* スキル追加チェックボックス */}
@@ -311,7 +329,7 @@ export function SimulatorTab() {
               accentColor: "#0078d4",
             }}
           />
-          授乳キャラにスキルを追加する
+          {t.checkboxAddSkill}
         </label>
       </div>
       {/* 種族・職業選択（チェック時のみ表示） */}
@@ -325,7 +343,7 @@ export function SimulatorTab() {
             fontSize: isSmall ? "1em" : "1em",
           }}
         >
-          <span>種族</span>
+          <span>{t.labelRace}</span>
           <Select
             options={Object.entries(allRaceNameMap).map(([key, value]) => ({
               value: key,
@@ -336,7 +354,7 @@ export function SimulatorTab() {
               const race = races.find((r) => r.id === option?.value);
               setSelectedRace(race || null);
             }}
-            placeholder="種族を選択"
+            placeholder={t.placeholderSelectRace}
             menuPortalTarget={document.body}
             menuPosition="fixed"
             menuPlacement="auto"
@@ -367,7 +385,7 @@ export function SimulatorTab() {
               }),
             }}
           />
-          <span>職業</span>
+          <span>{t.labelJob}</span>
           <Select
             options={Object.entries(allJobNameMap).map(([key, value]) => ({
               value: key,
@@ -378,7 +396,7 @@ export function SimulatorTab() {
               const job = jobs.find((j) => j.id === option?.value);
               setSelectedJob(job || null);
             }}
-            placeholder="職業を選択"
+            placeholder={t.placeholderSelectJob}
             menuPortalTarget={document.body}
             menuPosition="fixed"
             menuPlacement="auto"
@@ -422,7 +440,7 @@ export function SimulatorTab() {
             fontSize: isSmall ? "0.9em" : "1em",
           }}
         >
-          <span>スキル1</span>
+          <span>{t.labelSkill1}</span>
           <Select
             options={Object.entries(allElementNameMap).map(([key, value]) => ({
               value: key,
@@ -433,7 +451,7 @@ export function SimulatorTab() {
               const skill1 = elements.find((e) => e.alias === option?.value);
               setSelectAddSkill1(skill1 || null);
             }}
-            placeholder="スキルを選択"
+            placeholder={t.placeholderSelectSkill}
             menuPortalTarget={document.body}
             menuPosition="fixed"
             menuPlacement="auto"
@@ -464,7 +482,7 @@ export function SimulatorTab() {
               }),
             }}
           />
-          <span>スキル2</span>
+          <span>{t.labelSkill2}</span>
           <Select
             options={Object.entries(allElementNameMap).map(([key, value]) => ({
               value: key,
@@ -475,7 +493,7 @@ export function SimulatorTab() {
               const skill2 = elements.find((j) => j.alias === option?.value);
               setSelectAddSkill2(skill2 || null);
             }}
-            placeholder="スキルを選択"
+            placeholder={t.placeholderSelectSkill}
             menuPortalTarget={document.body}
             menuPosition="fixed"
             menuPlacement="auto"
@@ -511,7 +529,7 @@ export function SimulatorTab() {
 
       {/* 数値入力欄 */}
       <div style={{ textAlign: "center" }}>
-        <span>乳プラス値</span>
+        <span>{t.labelEncValue}</span>
         <input
           type="number"
           value={inputEnc}
@@ -526,7 +544,7 @@ export function SimulatorTab() {
           }}
         />
         {/* 数値入力欄 */}
-        <span>調教レベル</span>
+        <span>{t.labelLevel}</span>
         <input
           type="number"
           value={inputLv}
@@ -567,9 +585,9 @@ export function SimulatorTab() {
             margin: "0 0.7em",
           }}
         >
-          クリア
+          {t.buttonClear}
         </Button>
-        <Button onClick={handleCalc}>OK</Button>
+        <Button onClick={handleCalc}>{t.buttonOk}</Button>
       </div>
       {/* 選択されたキャラクターの情報表示 */}
       <div style={{ textAlign: "center", marginTop: "1em" }}>

@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { SimulatorTab } from "./SimulatorTab";
 import { MilkDataTab } from "./MilkDataTab";
+import { useLanguage } from "./LanguageContext";
+import { getTranslations } from "./translations";
 
 function MainLayout() {
+  const { lang, setLang } = useLanguage();
+  const t = getTranslations(lang);
   const [activeTab, setActiveTab] = useState(0);
+  const isSmallScreen = window.innerWidth < 900;
 
   const tabList = [
     {
-      label: "説明",
+      label: t.tabDescription,
       content: (
         <div
           style={{
@@ -18,49 +23,43 @@ function MainLayout() {
             background: "#fff",
           }}
         >
-          <h2>乳シミュレーターについて</h2>
-          このアプリはモンスター育成シミュレーションのためのツールです。
+          <h2>{t.aboutTitle}</h2>
+          {t.aboutDescription}
           <br />
-          現在EA 23.267 安定版
-          の仕様に基づいています。選択肢にそのバージョンまでのキャラなどが表示されない場合は、スーパーリロード（Ctrl
-          + Shift + R）を試してみてください。
+          {t.aboutVersion}
           <br />
           <br />
-          「シミュレーター」タブでは乳親キャラ・授乳対象のキャラなどを選択し、授乳時に上昇する能力値のシミュレーションができます。
+          {t.aboutSimulatorTab}
           <br />
-          また「授乳キャラにスキルを追加する」にチェックを入れて追加スキルを選択することで、後から授乳キャラにスキルを追加した場合の上昇能力値も計算できます。
+          {t.aboutAddSkill}
           <br />
-          授乳対象のキャラをランダム冒険者にする場合は、「授乳キャラをランダム冒険者にする」にチェックを入れて種族・職業を選択してください。
+          {t.aboutRandomAdventurer}
           <ul>
-            <li>各項目を入力後、「OK」ボタンで結果が表示されます。</li>
-            <li>「クリア」ボタンですべての入力をリセットできます。</li>
+            <li>{t.aboutUsageItem1}</li>
+            <li>{t.aboutUsageItem2}</li>
           </ul>
           <br />
-          「乳データ」タブでは各親モンスターごとの上昇能力値データを一覧で確認できます。
+          {t.aboutDataTab}
           <br />
-          「乳データ」は乳の+値が23(調教レベル100相当)での上昇値傾向を示しています。
+          {t.aboutDataExplanation}
           <ul>
-            <li>
-              表の右上にあるボタン群からフィルターや検索、必要ない能力の非表示などができます。
-            </li>
-            <li>
-              標準では1ページ20キャラのみ表示しており、右下のボタン群からページ送りや表示キャラ数を変更できます。
-            </li>
+            <li>{t.aboutDataUsageItem1}</li>
+            <li>{t.aboutDataUsageItem2}</li>
           </ul>
           <br />
-          <h2 style={{ color: "red" }}>注意事項</h2>
-          このシミュレーターは実際のゲームの仕様を限りなく近く再現していますが、実際のゲームの挙動を完全に保証するものではありません。
+          <h2 style={{ color: "red" }}>{t.aboutWarningTitle}</h2>
+          {t.aboutWarning}
           <br />
-          シミュレーターの結果と実際のゲーム内での結果が異なる場合があることをご了承ください。
-          <h2>備考</h2>
-          EA23.267安定版Patch1に対応しました。(2026/2/12)
+          {t.aboutWarningDetail}
+          <h2>{t.aboutNotesTitle}</h2>
+          <div style={{ whiteSpace: "pre-line" }}>{t.aboutNotes}</div>
           <br />
-          ご意見・ご要望・不具合の報告については、Elin公式Discordサーバーではsil(ieau512)にメンションまたはDMで、Twitterでは@morute00にメンションまたはDMでご連絡ください。
+          {t.aboutContact}
         </div>
       ),
     },
-    { label: "シミュレーター", content: <SimulatorTab /> },
-    { label: "乳データ", content: <MilkDataTab /> },
+    { label: t.tabSimulator, content: <SimulatorTab /> },
+    { label: t.tabData, content: <MilkDataTab /> },
   ];
 
   return (
@@ -76,16 +75,62 @@ function MainLayout() {
       {/* タイトル */}
       <div
         style={{
-          padding: "16px 0 8px 24px",
+          padding: "16px 24px 8px 24px",
           fontFamily: "Yu Gothic",
-          fontSize: "1.8rem",
+          fontSize: isSmallScreen ? "1.4rem" : "1.8rem",
           color: "#222",
           letterSpacing: "0.08em",
-          textAlign: "center",
           background: "#f9f9eac5",
+          display: "flex",
+          flexDirection: isSmallScreen ? "column" : "row",
+          justifyContent: isSmallScreen ? "center" : "space-between",
+          alignItems: "center",
+          position: "relative",
+          gap: isSmallScreen ? "12px" : "0",
         }}
       >
-        乳シミュレーター
+        {!isSmallScreen && <div style={{ flex: 1 }}></div>}
+        <div
+          style={
+            isSmallScreen ?
+              { textAlign: "center" }
+            : { position: "absolute", left: "50%", transform: "translateX(-50%)" }
+          }
+        >
+          {t.appTitle}
+        </div>
+        <div
+          style={{
+            flex: isSmallScreen ? "none" : 1,
+            display: "flex",
+            justifyContent: isSmallScreen ? "center" : "flex-end",
+            alignItems: "center",
+            gap: "8px",
+            flexWrap: "wrap",
+          }}
+        >
+          <span style={{ fontSize: isSmallScreen ? "0.85rem" : "1rem", color: "#555" }}>
+            {isSmallScreen ? "Language" : "言語 / Language:"}
+          </span>
+          <select
+            value={lang}
+            onChange={(e) => setLang(e.target.value as "ja" | "en")}
+            style={{
+              padding: isSmallScreen ? "6px 10px" : "8px 12px",
+              fontSize: isSmallScreen ? "0.9rem" : "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              background: "#fff",
+              cursor: "pointer",
+              fontWeight: "bold",
+              color: "#333",
+              outline: "none",
+            }}
+          >
+            <option value="ja">日本語</option>
+            <option value="en">English</option>
+          </select>
+        </div>
       </div>
       {/* タブボタン枠 */}
       <div style={{ display: "flex", borderBottom: "1px solid #ccc" }}>

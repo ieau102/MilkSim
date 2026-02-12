@@ -3,8 +3,12 @@ import { loadElements, loadChars, loadRaceElements, loadJobElements } from "./So
 import { calcMergedElementMap, bestAttribute, bestSkill, milkDifference } from "./SimulateFunc";
 import { MaterialReactTable } from "material-react-table";
 import { useState, useEffect } from "react";
+import { useLanguage } from "./LanguageContext";
+import { getTranslations } from "./translations";
 
 export function MilkDataTab() {
+  const { lang } = useLanguage();
+  const t = getTranslations(lang);
   const isSmall = window.innerWidth < 500;
   const isMiddle = window.innerWidth >= 500 && window.innerWidth < 800;
   const isLarge = window.innerWidth >= 800 && window.innerWidth < 1600;
@@ -24,14 +28,15 @@ export function MilkDataTab() {
 
   const allCharNameMap = chars.reduce(
     (acc, char) => {
-      if (char.charNameMap) {
-        Object.entries(char.charNameMap).forEach(([key, value]) => {
+      const nameMap = lang === "ja" ? char.charNameMap_JP : char.charNameMap_EN;
+      if (nameMap) {
+        Object.entries(nameMap).forEach(([key, value]) => {
           if (!acc[key]) acc[key] = value;
         });
       }
       return acc;
     },
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
 
   const mergedChildMap = new Map<string, number[]>();
@@ -54,7 +59,7 @@ export function MilkDataTab() {
       races,
       jobs,
       false,
-      true
+      true,
     );
     const bestAttr = bestAttribute(mergedParentMap, elements);
     const bestSkillMap = bestSkill(mergedParentMap, elements);
@@ -78,11 +83,11 @@ export function MilkDataTab() {
   const columns = [
     {
       accessorKey: "charName",
-      header: "親モンスター名",
+      header: t.dataTableParentCharacter,
     },
     ...statusElements.map((e) => ({
       accessorKey: undefined, // accessorKeyは使わない
-      header: e.name_JP,
+      header: lang === "ja" ? e.name_JP : e.name,
       id: `milkDiff.${e.alias}`,
       accessorFn: (row: { milkDiff: Record<string, number> }) => row.milkDiff?.[e.alias] ?? 0, // ここでデフォルト値
     })),
@@ -101,7 +106,7 @@ export function MilkDataTab() {
           color: "#555",
         }}
       >
-        読み込み中...
+        {t.messageLoading}
       </div>
     );
   }

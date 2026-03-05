@@ -44,7 +44,7 @@ export const translations = {
     aboutTitle: "乳シミュレーターについて",
     aboutDescription: "Elinでキャラクターに授乳した際の能力値上昇の計算を再現するツールです。",
     aboutVersion:
-      "現在EA 23.267 安定版の仕様に基づいています。選択肢にそのバージョンまでのキャラなどが表示されない場合は、スーパーリロード（Ctrl + Shift + R）を試してみてください。",
+      "現在EA 23.282 安定版の仕様に基づいています。選択肢にそのバージョンまでのキャラなどが表示されない場合は、スーパーリロード（Ctrl + Shift + R）を試してみてください。",
     aboutSimulatorTab:
       "「シミュレーター」タブでは乳親キャラ・授乳対象のキャラなどを選択し、授乳時に上昇する能力値のシミュレーションができます。",
     aboutAddSkill:
@@ -67,7 +67,7 @@ export const translations = {
       "シミュレーターの結果と実際のゲーム内での結果が異なる場合があることをご了承ください。",
     aboutNotesTitle: "備考",
     aboutNotes:
-      "EA23.267安定版Patch1に対応しました。(2026/2/12)\n試験的に英語に対応しました。(2026/2/12) 説明文はAIにより翻訳しているため、正確でない場合があります。",
+      "EA23.282安定版Patch3に対応しました。(2026/3/5)\n試験的に英語に対応しました。(2026/2/12) 説明文はAIにより翻訳しているため、正確でない場合があります。",
     aboutContact:
       "ご意見・ご要望・不具合の報告については、Elin公式Discordサーバーではsil(ieau512)にメンションまたはDMで、Twitterでは@morute00にメンションまたはDMでご連絡ください。",
 
@@ -123,7 +123,7 @@ export const translations = {
     aboutDescription:
       "This app simulates the ability value calculations when characters are fed in Elin.",
     aboutVersion:
-      "Currently based on EA 23.267 stable version specifications. If characters up to that version are not displayed in the options, try a hard refresh (Ctrl+Shift+R or Cmd+Shift+R).",
+      "Currently based on EA 23.282 stable version specifications. If characters up to that version are not displayed in the options, try a hard refresh (Ctrl+Shift+R or Cmd+Shift+R).",
     aboutSimulatorTab:
       'In the "Simulator" tab, you can select the parent character, feed target character, etc., and simulate the ability value increases during feeding.',
     aboutAddSkill:
@@ -147,7 +147,7 @@ export const translations = {
       "Please understand that the simulator results may differ from the actual in-game results.",
     aboutNotesTitle: "Notes",
     aboutNotes:
-      "Updated for EA23.267 stable version Patch1 (February 12, 2026).\nEnglish support is now available on an experimental basis (February 12, 2026). Translations may not be fully accurate as they are AI-generated.",
+      "Updated for EA23.282 stable version Patch3 (March 5, 2026).\nEnglish support is now available on an experimental basis (February 12, 2026). Translations may not be fully accurate as they are AI-generated.",
     aboutContact:
       "For feedback, requests, or bug reports, please mention or DM sil(ieau512) on the official Elin Discord server, or mention or DM @morute00 on X (formerly Twitter).",
 

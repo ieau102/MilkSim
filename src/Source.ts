@@ -42,13 +42,13 @@ export type Element = {
   levelBonus_JP: string;
   levelBonus: string;
   foodEffect: string;
-  "***": string;
   langAct: string;
   detail_JP: string;
   detail: string;
   textPhase_JP: string;
   textPhase: string;
   textExtra_JP: string;
+  textExtra: string;
   charMap?: Record<string, string>;
   textInc_JP: string;
   textInc: string;
@@ -74,7 +74,6 @@ export type Char = {
   tiles: string;
   tiles_snow: string;
   colorMod: number;
-  components: string;
   defMat: string;
   LV: number;
   chance: number;
@@ -107,6 +106,8 @@ export type Char = {
   idText: string;
   moveAnime: string;
   factory: string;
+  components: string;
+  recruitItems: string;
   detail_JP: string;
   detail: string;
   elementMap?: Record<string, number>;
@@ -313,11 +314,20 @@ function getNameMap(
     case "dragon2":
       fullname += isJP ? "(死/混沌)" : " (Nether/Chaos)";
       break;
-    case "imotoroid":
-      fullname += isJP ? "ロイド" : "roid";
-      break;
     case "imotoroid_origin":
-      fullname += isJP ? "ロイドオリジン" : "roid Origin";
+      fullname += isJP ? "ロイドオリジン" : "oid origin";
+      break;
+    case "big_daddy":
+      fullname += isJP ? "(機工兵)" : " (gunner)";
+      break;
+    case "big_daddy2":
+      fullname += isJP ? "(戦士)" : " (warrior)";
+      break;
+    case "merchant_travel":
+      fullname += isJP ? "(ラビアン)" : " (ravian)";
+      break;
+    case "merchant_travel2":
+      fullname += isJP ? "(ジューア)" : " (juere)";
       break;
     default:
       break;
@@ -353,18 +363,18 @@ function getJobNameMap(
 }
 
 export async function loadElements(): Promise<Element[]> {
-  const response = await fetch(`${import.meta.env.BASE_URL}resources/elements.csv`);
+  const response = await fetch(`${import.meta.env.BASE_URL}resources/SourceElement.csv`);
   const csvText = await response.text();
   const tmp = Papa.parse<Element>(csvText, {
     header: true,
     skipEmptyLines: true,
   });
-  const elementsList = tmp.data.map(autoConvertRow) as Element[];
+  const elementsList = tmp.data.slice(1).map(autoConvertRow) as Element[];
   return elementsList;
 }
 
 export async function loadChars(): Promise<Char[]> {
-  const response = await fetch(`${import.meta.env.BASE_URL}resources/charas.csv`);
+  const response = await fetch(`${import.meta.env.BASE_URL}resources/SourceChara.csv`);
   const csvText = await response.text();
   const tmp = Papa.parse<Char>(csvText, {
     header: true,
@@ -372,7 +382,7 @@ export async function loadChars(): Promise<Char[]> {
     newline: "\n",
     quoteChar: '"',
   });
-  const result = tmp.data.map(autoConvertRow) as Char[];
+  const result = tmp.data.slice(1).map(autoConvertRow) as Char[];
   const filterWord = [
     "chara",
     "test_chicken",
@@ -385,11 +395,12 @@ export async function loadChars(): Promise<Char[]> {
     "yatsu",
     "yochlol",
     "beholder",
+    "priest2",
   ];
   const filtered = result.filter(
     (row) =>
       row.id !== "guard_port" &&
-      (row.quality !== 4 || row.id === "big_daddy") &&
+      (row.quality !== 4 || row.id === "big_daddy" || row.id === "big_daddy2") &&
       (row.chance !== 0 || !filterWord.includes(row.id)),
   );
   const charWithMap = filtered.map((row) => {
@@ -403,7 +414,7 @@ export async function loadChars(): Promise<Char[]> {
 }
 
 export async function loadRaceElements(): Promise<Race[]> {
-  const response = await fetch(`${import.meta.env.BASE_URL}resources/races.csv`);
+  const response = await fetch(`${import.meta.env.BASE_URL}resources/SourceRace.csv`);
   const csvText = await response.text();
   const tmp = Papa.parse<Race>(csvText, {
     header: true,
@@ -411,7 +422,7 @@ export async function loadRaceElements(): Promise<Race[]> {
     newline: "\n",
     quoteChar: '"',
   });
-  const result = tmp.data.map(autoConvertRow) as Race[];
+  const result = tmp.data.slice(1).map(autoConvertRow) as Race[];
   const raceWithMap = result.map((row) => {
     const baseMap: Record<string, number> = {};
     baseMap["STR"] = Number(row.STR);
@@ -463,13 +474,13 @@ export async function loadRaceElements(): Promise<Race[]> {
 }
 
 export async function loadJobElements(): Promise<Job[]> {
-  const response = await fetch(`${import.meta.env.BASE_URL}resources/jobs.csv`);
+  const response = await fetch(`${import.meta.env.BASE_URL}resources/SourceJob.csv`);
   const csvText = await response.text();
   const tmp = Papa.parse<Job>(csvText, {
     header: true,
     skipEmptyLines: true,
   });
-  const result = tmp.data.map(autoConvertRow) as Job[];
+  const result = tmp.data.slice(1).map(autoConvertRow) as Job[];
   const jobsWithMap = result.map((row) => {
     const elementMap = getElementMap(row.elements);
     elementMap["STR"] = Number(row.STR);

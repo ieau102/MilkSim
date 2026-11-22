@@ -329,6 +329,24 @@ function getNameMap(
     case "merchant_travel2":
       fullname += isJP ? "(ジューア)" : " (juere)";
       break;
+    case "putty_pack":
+      fullname += isJP ? "(召喚士)" : " (summoner)";
+      break;
+    case "mass_steel_wynan":
+      fullname += isJP ? "(鉄塊)" : " (steel mass)";
+      break;
+    case "living_armor_wynan":
+      fullname += isJP ? "(リビングアーマー)" : " (living armor)";
+      break;
+    case "armor_gold_wynan":
+      fullname += isJP ? "(ゴールデンアーマー)" : " (golden armor)";
+      break;
+    case "paint_living":
+      fullname += isJP ? "(魔法戦士)" : " (warmage)";
+      break;
+    case "paint_living2":
+      fullname += isJP ? "(魔法使い)" : " (wizard)";
+      break;
     default:
       break;
   }
@@ -396,6 +414,7 @@ export async function loadChars(): Promise<Char[]> {
     "yochlol",
     "beholder",
     "priest2",
+    "alien3",
   ];
   const filtered = result.filter(
     (row) =>
